@@ -17,13 +17,21 @@ class cookie extends PlugIn
         );
     }
 
-    public function set($k, $v, array $cParams=[])
-    {
+    public function set(
+        $k,
+        $v,
+        array $cParams=[],
+        callable $func = null
+    ) {
         $cParams = array_replace(
             \PMVC\toArray($this['params']),
             $cParams
         );
-        setcookie(
+        if (is_null($func)) {
+            $func = 'setcookie';
+        }
+        call_user_func(
+            $func, 
             $k,
             $v,
             time()+$cParams['lifetime'],

@@ -2,16 +2,16 @@
 
 namespace PMVC\PlugIn\cookie;
 
-use PMVC\PlugIn\get\GetInterface;
 use PMVC\PlugIn;
 
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\cookie';
 
-\PMVC\initPlugin(['get'=>null]);
-
+/**
+ * Why not integrate with \PMVC\plug('get')?
+ * Because cookie is one of type by user input, for prevent security issue.
+ */
 class cookie
     extends PlugIn
-    implements GetInterface
 {
 
     public function init()
@@ -50,11 +50,6 @@ class cookie
     public function get($k, $default = null)
     {
         return \PMVC\get($_COOKIE, $k, $default);
-    }
-
-    public function has($k)
-    {
-        return isset($_COOKIE[$k]);
     }
 
     private function _defaultCookie()

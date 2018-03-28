@@ -62,4 +62,36 @@ class cookie
             'httponly'=>true
         ];
     }
+
+    private function _getCookieName($one)
+    {
+        $one = explode('=', $one);
+        return $one[0];
+    }
+
+    public function parseCookieString($s)
+    {
+        $cookies = explode(';', $s);
+        $result = [];
+        foreach ($cookies as $c) {
+            $c = trim($c);
+            $name = $this->_getCookieName($c);
+            $result[$name] = $c;
+        }
+        return $result;
+    }
+
+    public function parseSetCookieString($setCookStrings)
+    {
+        $cookies = \PMVC\toArray($setCookStrings);
+        $result = [];
+        foreach ($cookies as $c) {
+            $name = $this->_getCookieName($c);
+            $c = explode(';', $c)[0];
+            if ($name) {
+                $result[$name] = $c;
+            }
+        }
+        return $result;
+    }
 }

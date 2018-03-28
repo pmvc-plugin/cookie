@@ -39,4 +39,28 @@ class CookieTest extends PHPUnit_Framework_TestCase
         $actual = $plug->get($key);
         $this->assertEquals($val, $actual);
     }
+
+    public function testParseCookieString()
+    {
+        $s = '_ga=GA1.3.1214179492.1522211047; _gid=GA1.3.434314545.1522211047; JSESSIONID=0000OxWmIsqfMNlX13LoHEWmWES:19tmdfpi3';
+        $plug = \PMVC\plug($this->_plug);
+        $actual = $plug->parseCookieString($s);
+        $expected = [
+            '_ga'=>'_ga=GA1.3.1214179492.1522211047',
+            '_gid'=>'_gid=GA1.3.434314545.1522211047',
+            'JSESSIONID'=>'JSESSIONID=0000OxWmIsqfMNlX13LoHEWmWES:19tmdfpi3' 
+        ];
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testParseSetCookieString()
+    {
+        $s ='JSESSIONID=00005bELXYn2wZ_r60PccMfB5uZ:19tmdfpi3; Path=/; HttpOnly';
+        $plug = \PMVC\plug($this->_plug);
+        $actual = $plug->parseSetCookieString($s);
+        $expected = [
+            'JSESSIONID' => 'JSESSIONID=00005bELXYn2wZ_r60PccMfB5uZ:19tmdfpi3'
+        ];
+        $this->assertEquals($expected, $actual);
+    }
 }

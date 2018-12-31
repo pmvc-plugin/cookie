@@ -69,6 +69,11 @@ class cookie
         return $one[0];
     }
 
+    public function toString($arrCookies)
+    {
+        return join('; ', $arrCookies);
+    }
+
     public function parseCookieString($s)
     {
         $cookies = explode(';', $s);

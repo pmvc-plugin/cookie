@@ -4,42 +4,33 @@ namespace PMVC\PlugIn\cookie;
 
 use PMVC\PlugIn;
 
-${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\cookie';
+${_INIT_CONFIG}[_CLASS] = __NAMESPACE__ . '\cookie';
 
 /**
  * Why not integrate with \PMVC\plug('get')?
  * Because cookie is one of type by user input, for prevent security issue.
  */
-class cookie
-    extends PlugIn
+class cookie extends PlugIn
 {
-
     public function init()
     {
         $this['params'] = array_replace(
             $this->_defaultCookie(),
-            \PMVC\toArray($this['params']) 
+            \PMVC\toArray($this['params'])
         );
     }
 
-    public function set(
-        $k,
-        $v,
-        array $cParams=[],
-        callable $func = null
-    ) {
-        $cParams = array_replace(
-            \PMVC\toArray($this['params']),
-            $cParams
-        );
+    public function set($k, $v, array $cParams = [], callable $func = null)
+    {
+        $cParams = array_replace(\PMVC\toArray($this['params']), $cParams);
         if (is_null($func)) {
             $func = 'setcookie';
         }
         call_user_func(
-            $func, 
+            $func,
             $k,
             $v,
-            time()+$cParams['lifetime'],
+            time() + $cParams['lifetime'],
             $cParams['path'],
             $cParams['domain'],
             $cParams['secure'],
@@ -55,11 +46,11 @@ class cookie
     private function _defaultCookie()
     {
         return [
-            'lifetime'=>86400*7,
-            'path'=>'/',
-            'domain'=>null,
-            'secure'=>false,
-            'httponly'=>true
+            'lifetime' => 86400 * 7,
+            'path' => '/',
+            'domain' => null,
+            'secure' => false,
+            'httponly' => true,
         ];
     }
 
@@ -72,6 +63,15 @@ class cookie
     public function toString($arrCookies)
     {
         return join('; ', $arrCookies);
+    }
+
+    public function toKVString($arrCookies)
+    {
+        $results = [];
+        foreach ($arrCookies as $k => $v) {
+            $results[] = $k . '=' . $v;
+        }
+        return join('; ', $results);
     }
 
     public function parseCookieString($s)
@@ -94,7 +94,9 @@ class cookie
             $name = $this->_getCookieName($c);
             $c = explode(';', $c)[0];
             if ($name) {
-                $result[$name] = is_null($valueOnly) ? $c : substr($c, strpos($c, '=') + 1);
+                $result[$name] = is_null($valueOnly)
+                    ? $c
+                    : substr($c, strpos($c, '=') + 1);
             }
         }
         return $result;

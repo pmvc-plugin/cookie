@@ -63,4 +63,30 @@ class CookieTest extends TestCase
         ];
         $this->assertEquals($expected, $actual);
     }
+
+    public function testToString()
+    {
+        $plug = \PMVC\plug($this->_plug);
+        $arr = [
+            '_ga=GA1.3.1214179492.1522211047',
+            '_gid=GA1.3.434314545.1522211047',
+            'JSESSIONID=0000OxWmIsqfMNlX13LoHEWmWES:19tmdfpi3' 
+        ];
+        $expected = '_ga=GA1.3.1214179492.1522211047; _gid=GA1.3.434314545.1522211047; JSESSIONID=0000OxWmIsqfMNlX13LoHEWmWES:19tmdfpi3';
+        $actual = $plug->toString($arr);
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testToKVString()
+    {
+        $plug = \PMVC\plug($this->_plug);
+        $arr = [
+            '_ga'=>'GA1.3.1214179492.1522211047',
+            '_gid'=>'GA1.3.434314545.1522211047',
+            'JSESSIONID'=>'0000OxWmIsqfMNlX13LoHEWmWES:19tmdfpi3' 
+        ];
+        $expected = '_ga=GA1.3.1214179492.1522211047; _gid=GA1.3.434314545.1522211047; JSESSIONID=0000OxWmIsqfMNlX13LoHEWmWES:19tmdfpi3';
+        $actual = $plug->toKVString($arr);
+        $this->assertEquals($expected, $actual);
+    }
 }

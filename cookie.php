@@ -86,7 +86,7 @@ class cookie
         return $result;
     }
 
-    public function parseSetCookieString($setCookStrings)
+    public function parseSetCookieString($setCookStrings, $valueOnly = null)
     {
         $cookies = \PMVC\toArray($setCookStrings);
         $result = [];
@@ -94,7 +94,7 @@ class cookie
             $name = $this->_getCookieName($c);
             $c = explode(';', $c)[0];
             if ($name) {
-                $result[$name] = $c;
+                $result[$name] = is_null($valueOnly) ? $c : substr($c, strpos($c, '=') + 1);
             }
         }
         return $result;

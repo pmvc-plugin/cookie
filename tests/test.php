@@ -1,9 +1,9 @@
 <?php
 namespace PMVC\PlugIn\cookie;
 
-use PHPUnit_Framework_TestCase;
+use PMVC\TestCase;
 
-class CookieTest extends PHPUnit_Framework_TestCase
+class CookieTest extends TestCase
 {
     private $_plug = 'cookie';
     function testPlugin()
@@ -12,7 +12,7 @@ class CookieTest extends PHPUnit_Framework_TestCase
         print_r(\PMVC\plug($this->_plug));
         $output = ob_get_contents();
         ob_end_clean();
-        $this->assertContains($this->_plug,$output);
+        $this->haveString($this->_plug,$output);
     }
 
     public function testSetCookie()
